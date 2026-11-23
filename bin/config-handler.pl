@@ -727,9 +727,9 @@ sub influx_movedb {
 	# Move database to new location
 	system ("systemctl stop influxdb");
 	if ($noperms) {
-		system ("rsync -av --no-owner --no-group --no-perms $dbsource/* $dbtarget/influxdb/ >> $logfile 2>&1");
+		system ("rsync -av --no-owner --insecure-links --no-group --no-perms $dbsource/* $dbtarget/influxdb/ >> $logfile 2>&1");
 	} else {
-		system ("rsync -av $dbsource/* $dbtarget/influxdb/ >> $logfile 2>&1");
+		system ("rsync -av --insecure-links $dbsource/* $dbtarget/influxdb/ >> $logfile 2>&1");
 	}
 	if ($? > 0) {
 		LOGERR "Copying database failed.";
